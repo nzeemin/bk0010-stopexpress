@@ -68,6 +68,8 @@ namespace SpriteRotate
         {
             Bitmap bmpTiles = new Bitmap(180, 300, PixelFormat.Format32bppArgb);
 
+            Bitmap bmpNewTiles = new Bitmap(@"..\..\newtiles.png");
+
             DrawTiles(14726, bmpTiles, 128, 10, 10);
             DrawTiles(15880, bmpTiles, 128, 10, 10 + (80 + 2));
             DrawTiles(17034, bmpTiles, 128, 10, 10 + (80 + 2) * 2);
@@ -103,6 +105,10 @@ namespace SpriteRotate
             RotateTiles(writer, 17034, 128, 128, tile2Mods);  // 041212
             writer.WriteLine();
             RotateTiles(writer, 18188, 48, 176, tile3Mods);   // 043414
+            writer.WriteLine();
+
+            RotateNewTiles(writer, bmpNewTiles, 0x30, 16, "TILE60");
+            RotateNewTiles(writer, bmpNewTiles, 0x40, 27, "TILEABC");
             writer.WriteLine();
 
             writer.WriteLine("; Сжатая демо-последовательность");
@@ -207,6 +213,49 @@ namespace SpriteRotate
                 byte attr = memdmp[addr + 8];
                 writer.WriteLine("\t; {1}", EncodeOctalString(attr), EncodeOctalString((byte)(tileoffset + (addr - address) / 9)));
             }
+        }
+
+        static void RotateNewTiles(StreamWriter writer, Bitmap bmpTiles, int tileoffset, int tilecount, string label)
+        {
+            writer.WriteLine("; Блок из {0} тайлов с {1} тайла", EncodeOctalString((byte)tilecount), EncodeOctalString((byte)tileoffset));
+            writer.WriteLine("\t.EVEN");
+            writer.WriteLine("{0}:", label);
+
+            for (int tile = tileoffset; tile < tileoffset + tilecount; tile++)
+            {
+                writer.Write("\t.WORD\t");
+                int basex = 10 + (tile % 16) * 10;
+                int basey = 10 + (tile / 16) * 10;
+                for (int i = 0; i < 8; i++)
+                {
+                    int bb = 0;
+                    for (int x = 0; x < 8; x++)
+                    {
+                        Color color = bmpTiles.GetPixel(basex + (7 - x), basey + i);
+                        int index = ColorToIndex(color);
+                        bb = bb << 2;
+                        bb |= index;
+                    }
+
+                    if ((tile < 0x30) && (i == 2 || i == 6) ||
+                        (tile < 91 && tile >= 0x30) && (i != 2 && i != 4 && i != 7) ||
+                        (tile >= 91) && ((i & 1) == 0))
+                    {
+                        writer.Write(EncodeOctalString2(bb));
+                        if (i < 6)
+                            writer.Write(",");
+                    }
+                }
+                writer.WriteLine("\t; {0}", EncodeOctalString((byte)tile));
+            }
+        }
+
+        static int ColorToIndex(Color color)
+        {
+            if ((color.ToArgb() & 0xffffff) == 0xff0000) return 3;
+            if ((color.ToArgb() & 0xffffff) == 0x00ff00) return 2;
+            if ((color.ToArgb() & 0xffffff) == 0x0000ff) return 1;
+            return 0;
         }
 
         static void DumpBytes(StreamWriter writer, int address, int length, int numlines = -1)
