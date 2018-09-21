@@ -98,17 +98,20 @@ namespace SpriteRotate
             DumpBytes(writer, 12980, 768, 0);  // 031264
             writer.WriteLine(";Z32664:");
             writer.WriteLine();
-            RotateTiles(writer, 14726, 128, 0, tile0Mods);    // 034606
-            writer.WriteLine();
-            RotateTiles(writer, 15880, 128, 128, tile1Mods);  // 037010
-            writer.WriteLine();
-            RotateTiles(writer, 17034, 128, 128, tile2Mods);  // 041212
-            writer.WriteLine();
-            RotateTiles(writer, 18188, 48, 176, tile3Mods);   // 043414
-            writer.WriteLine();
+            //RotateTiles(writer, 14726, 128, 0, tile0Mods);    // 034606
+            //writer.WriteLine();
+            //RotateTiles(writer, 15880, 128, 128, tile1Mods);  // 037010
+            //writer.WriteLine();
+            //RotateTiles(writer, 17034, 128, 128, tile2Mods);  // 041212
+            //writer.WriteLine();
+            //RotateTiles(writer, 18188, 48, 176, tile3Mods);   // 043414
+            //writer.WriteLine();
 
             RotateNewTiles(writer, bmpNewTiles, 0x30, 16, "TILE60");
             RotateNewTiles(writer, bmpNewTiles, 0x40, 27, "TILEABC");
+            RotateNewTiles(writer, bmpNewTiles, 0x5B, 37, "TILEx5B");
+            RotateNewTiles(writer, bmpNewTiles, 0x79, 6, "TILEx79");
+            RotateNewTiles(writer, bmpNewTiles, 0x80, 128, "TILEx80");
             writer.WriteLine();
 
             writer.WriteLine("; Сжатая демо-последовательность");
@@ -252,9 +255,11 @@ namespace SpriteRotate
 
         static int ColorToIndex(Color color)
         {
-            if ((color.ToArgb() & 0xffffff) == 0xff0000) return 3;
-            if ((color.ToArgb() & 0xffffff) == 0x00ff00) return 2;
-            if ((color.ToArgb() & 0xffffff) == 0x0000ff) return 1;
+            if ((color.ToArgb() & 0xffffff) == 0xff0000) return 3;  // Red
+            if ((color.ToArgb() & 0xffffff) == 0x00ff00) return 2;  // Green
+            if ((color.ToArgb() & 0xffffff) == 0x0000ff) return 1;  // Blue
+            if ((color.ToArgb() & 0xffffff) == 0xffff00) return 3;  // Yellow -> Red
+            if ((color.ToArgb() & 0xffffff) == 0xffffff) return 3;  // White -> Red
             return 0;
         }
 
