@@ -40,9 +40,10 @@ namespace SpriteRotate
 
             writer.WriteLine("; Блок тайлов");
             writer.WriteLine("\t.EVEN");
+            RotatePatternTiles(writer, bmpNewTiles, 0x20, 9, "TILE20");
             RotateNewTiles(writer, bmpNewTiles, 0x30, 16, "TILE30");
             RotateNewTiles(writer, bmpNewTiles, 0x40, 27, "TILE40");
-            RotateNewTiles(writer, bmpNewTiles, 0x5B, 37, "TILE5B");
+            RotateNewTiles(writer, bmpNewTiles, 0x60, 32, "TILE60");
             RotateNewTiles(writer, bmpNewTiles, 0x80, 128, "TILE80");
             writer.WriteLine();
 
@@ -53,8 +54,8 @@ namespace SpriteRotate
             RotateExtraTiles(writer, bmpNewTiles, 8, 0x98, 6);
             RotateExtraTiles(writer, bmpNewTiles, 10, 0xA8, 7);
             RotateExtraTiles(writer, bmpNewTiles, 9, 0xB8, 7);
-            RotateExtraTiles(writer, bmpNewTiles, 11, 0xCA, 6);
-            RotateExtraTiles(writer, bmpNewTiles, 10, 0xDA, 6);
+            RotateExtraTiles(writer, bmpNewTiles, 13, 0xCA, 4);
+            RotateExtraTiles(writer, bmpNewTiles, 12, 0xDA, 4);
             RotateExtraTiles(writer, bmpNewTiles, 12, 0xEB, 4);
             RotateExtraTiles(writer, bmpNewTiles, 12, 0xFB, 4);
             writer.WriteLine("\t.BYTE\t000,000");
@@ -84,6 +85,36 @@ namespace SpriteRotate
                 RotateNewTile(writer, bmpTiles, tile, basex, basey);
 
                 writer.WriteLine("\t; {0}", EncodeOctalString((byte)tile));
+            }
+        }
+
+        static void RotatePatternTiles(StreamWriter writer, Bitmap bmpTiles, int tileoffset, int tilecount, string label)
+        {
+            writer.WriteLine("{0}:", label);
+
+            for (int tile = tileoffset; tile < tileoffset + tilecount; tile++)
+            {
+                if (tile % 8 == 0)
+                    writer.Write("\t.WORD\t");
+                int basex = 10 + (tile % 16) * 10;
+                int basey = 10 + (tile / 16) * 10;
+
+                int bb = 0;
+                for (int x = 0; x < 8; x++)
+                {
+                    Color color = bmpTiles.GetPixel(basex + (7 - x), basey);
+                    int index = ColorToIndex(color);
+                    bb = bb << 2;
+                    bb |= index;
+                }
+
+                writer.Write(EncodeOctalString2(bb));
+                if (tile % 8 < 7)
+                    writer.Write(",");
+                else
+                    writer.WriteLine();
+
+                //writer.WriteLine("\t; {0}", EncodeOctalString((byte)tile));
             }
         }
 
