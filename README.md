@@ -8,6 +8,8 @@ And finally in September 2018 I started porting the game to BK-0010 machine.
 
 Screenshots of the ported version:
 
+![](screenshot/titlescreen.png)
+
 ![](screenshot/demoscreen.png)
 
 Screenshot of the original game on MS-0515:
