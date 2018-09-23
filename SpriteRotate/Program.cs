@@ -43,7 +43,7 @@ namespace SpriteRotate
             RotatePatternTiles(writer, bmpNewTiles, 0x20, 9, "TILE20");
             RotateNewTiles(writer, bmpNewTiles, 0x30, 16, "TILE30");
             RotateNewTiles(writer, bmpNewTiles, 0x40, 27, "TILE40");
-            RotateNewTiles(writer, bmpNewTiles, 0x60, 32, "TILE60");
+            RotateNewTiles(writer, bmpNewTiles, 0x67, 25, "TILE67");
             RotateNewTiles(writer, bmpNewTiles, 0x80, 128, "TILE80");
             writer.WriteLine();
 
@@ -52,12 +52,12 @@ namespace SpriteRotate
             writer.WriteLine("TILEEX:");
             RotateExtraTiles(writer, bmpNewTiles, 8, 0x88, 8);
             RotateExtraTiles(writer, bmpNewTiles, 8, 0x98, 6);
-            RotateExtraTiles(writer, bmpNewTiles, 10, 0xA8, 7);
-            RotateExtraTiles(writer, bmpNewTiles, 9, 0xB8, 7);
-            RotateExtraTiles(writer, bmpNewTiles, 13, 0xCC, 4);
-            RotateExtraTiles(writer, bmpNewTiles, 12, 0xDC, 4);
-            RotateExtraTiles(writer, bmpNewTiles, 12, 0xEC, 4);
-            RotateExtraTiles(writer, bmpNewTiles, 12, 0xFC, 4);
+            RotateExtraTiles(writer, bmpNewTiles, 10, 0xA8, 8);
+            RotateExtraTiles(writer, bmpNewTiles, 8, 0xB8, 8);
+            RotateExtraTiles(writer, bmpNewTiles, 10, 0xCA, 6);
+            RotateExtraTiles(writer, bmpNewTiles, 10, 0xDA, 6);
+            RotateExtraTiles(writer, bmpNewTiles, 11, 0xEB, 5);
+            RotateExtraTiles(writer, bmpNewTiles, 11, 0xFB, 5);
             writer.WriteLine("\t.BYTE\t000,000");
             writer.WriteLine();
 
