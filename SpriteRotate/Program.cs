@@ -54,10 +54,10 @@ namespace SpriteRotate
             RotateExtraTiles(writer, bmpNewTiles, 8, 0x98, 6);
             RotateExtraTiles(writer, bmpNewTiles, 10, 0xA8, 7);
             RotateExtraTiles(writer, bmpNewTiles, 9, 0xB8, 7);
-            RotateExtraTiles(writer, bmpNewTiles, 13, 0xCA, 4);
-            RotateExtraTiles(writer, bmpNewTiles, 12, 0xDA, 4);
-            RotateExtraTiles(writer, bmpNewTiles, 12, 0xEB, 4);
-            RotateExtraTiles(writer, bmpNewTiles, 12, 0xFB, 4);
+            RotateExtraTiles(writer, bmpNewTiles, 13, 0xCC, 4);
+            RotateExtraTiles(writer, bmpNewTiles, 12, 0xDC, 4);
+            RotateExtraTiles(writer, bmpNewTiles, 12, 0xEC, 4);
+            RotateExtraTiles(writer, bmpNewTiles, 12, 0xFC, 4);
             writer.WriteLine("\t.BYTE\t000,000");
             writer.WriteLine();
 
@@ -109,7 +109,7 @@ namespace SpriteRotate
                 }
 
                 writer.Write(EncodeOctalString2(bb));
-                if (tile % 8 < 7)
+                if (tile % 8 < 7 && tile < tileoffset + tilecount - 1)
                     writer.Write(",");
                 else
                     writer.WriteLine();
@@ -120,12 +120,12 @@ namespace SpriteRotate
 
         static void RotateExtraTiles(StreamWriter writer, Bitmap bmpTiles, int skiptiles, int tileoffset, int tilecount)
         {
-            writer.WriteLine("\t.BYTE\t{0},{1}", EncodeOctalString((byte)(skiptiles * 8)), EncodeOctalString((byte)tilecount));
+            writer.WriteLine("\t.BYTE\t{0},{1}", EncodeOctalString((byte)(skiptiles * 8)), EncodeOctalString((byte)(tilecount * 4)));
 
             for (int tile = tileoffset; tile < tileoffset + tilecount; tile++)
             {
                 writer.Write("\t.WORD\t");
-                int basex = 90 + (tile % 16) * 10;
+                int basex = 92 + (tile % 16) * 10;
                 int basey = 10 + (tile / 16) * 10;
 
                 RotateNewTile(writer, bmpTiles, tile, basex, basey);
