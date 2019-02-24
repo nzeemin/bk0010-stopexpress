@@ -43,7 +43,7 @@ namespace SpriteRotate
             RotatePatternTiles(writer, bmpNewTiles, 0x20, 9, "TILE20");
             RotateNewTiles(writer, bmpNewTiles, 0x30, 16, "TILE30");
             RotateNewTiles(writer, bmpNewTiles, 0x40, 27, "TILE40");
-            RotateNewTiles(writer, bmpNewTiles, 0x67, 25, "TILE67");
+            RotateNewTiles(writer, bmpNewTiles, 0x6C, 20, "TILE6C");
             RotateNewTiles(writer, bmpNewTiles, 0x80, 128, "TILE80");
             writer.WriteLine();
 
