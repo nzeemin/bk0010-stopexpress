@@ -34,6 +34,7 @@ if "%undefg%"=="" (
   type OUTPUT.MAP
   echo.
   echo LINKED SUCCESSFULLY
+  echo.
 ) ELSE (
   echo ======= LINK FAILED =======
   exit /b
