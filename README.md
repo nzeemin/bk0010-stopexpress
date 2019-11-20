@@ -16,6 +16,10 @@ Screenshots of the ported version:
 
 ![](screenshot/demoscreen.png)
 
+Tiles used:
+
+![](screenshot/newtiles.png)
+
 Screenshot of the original game on MS-0515:
 
 ![](screenshot/original-ms0515.png)
