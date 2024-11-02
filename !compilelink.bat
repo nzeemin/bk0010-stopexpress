@@ -59,5 +59,7 @@ if "%undefg%"=="" (
   exit /b
 )
 
+findstr /RC:"FREMEM =" EXPRES.LST
+
 if exist EXPRES.BIN del EXPRES.BIN
 C:\bin\Sav2BkBin.exe EXPRES.SAV EXPRES.BIN
